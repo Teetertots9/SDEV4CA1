@@ -7,6 +7,15 @@ import play.data.format.*;
 import play.data.validation.*;
 
 @Entity
+
+@Table(name = "user")
+
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
+@DiscriminatorColumn(name = "type")
+
+@DiscriminatorValue("u")
+
 public class User{
 
     @Id
@@ -56,11 +65,7 @@ public class User{
     }
 
     public static Finder<Long,User> find = new Finder<Long,User>(User.class);
-
-//Find all Products in the database
-public static List<User> findAll() {
-   return User.find.query().where().orderBy("name asc").findList();
-}
+    
 public static User authenticate(String email, String password) {
     return find.query().where().eq("email", email).eq("password", password).findUnique();
     }

@@ -34,7 +34,8 @@
 				}
 				</li>
 				@if((user != null) && ("admin".equals(user.getRole()))) {
-					<li @if(pagename == "Users") {class="active"}><a href="@routes.HomeController.users()">Users</a></li>
+					<li @if(pagename == "Users") {class="active"}><a href="@routes.HomeController.usersCustomers()">View Customers</a></li>
+					<li @if(pagename == "Administrators") {class="active"}><a href="@routes.HomeController.usersAdmin()">View Admin</a></li>
 	}
 	
 		</ul>

@@ -1,0 +1,69 @@
+@(customers: List[models.users.Customer],user: models.users.User)
+@main("Customers",user){
+    <h1>Current customers</h1>
+
+
+    @* Display successful new user message from flash, if it is set *@
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+			@flash.get("success")
+		</div>
+}
+
+    <div class="col-sm-9">
+        <h4>Here are all the current customers on the system.</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+        <!-- The header row-->
+        <tr>
+            <th>Email</th>
+            <th>Role </th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Street 1</th>
+            <th>Street 2</th>
+            <th>Town</th>
+            <th>Postcode</th>
+            <th>Credit Card</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Product row(s) -->
+       
+            @* Loop for creating table rows from User data *@
+            @for(c<-customers) {
+               <tr>
+                  <td>@c.getEmail</td>
+                  <td>@c.getRole</td>
+                  <td>@c.getName</td>
+                  <td>@c.getPassword</td>
+                  <td>@c.getStreet1</td>
+                  <td>@c.getStreet2</td>
+                  <td>@c.getTown</td>
+                  <td>@c.getPostCode</td>
+                  <td>@c.getCreditCard</td>
+                  <!-- Update button -->
+						<td>
+							<a href="@routes.HomeController.updateCustomer(c.getEmail)" class="button-xs btn-danger">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+                        </td>
+                  <!-- Delete button -->
+						<td>
+							<a href="@routes.HomeController.deleteCustomer(c.getEmail)" class="button-xs btn-danger" onclick="return confirmDel();">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+                        </td>
+               </tr>
+            }
+        
+        </tbody>
+    </table>
+
+    <p>
+        <a href="@routes.HomeController.addCustomer()">
+            <button class="btn btn-primary">Add a new Customer</button>
+        </a>
+    </p>
+</div>
+ }

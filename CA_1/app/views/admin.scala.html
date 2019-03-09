@@ -1,0 +1,59 @@
+@(users: List[models.users.Administrator],user: models.users.User)
+@main("Administrators",user){
+    <h1>Current administrators</h1>
+
+
+    @* Display successful new user message from flash, if it is set *@
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+			@flash.get("success")
+		</div>
+}
+
+    <div class="col-sm-9">
+        <h4>Here are all the current administrators on the system.</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+        <!-- The header row-->
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Name</th>
+            <th>Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Product row(s) -->
+       
+            @* Loop for creating table rows from User data *@
+            @for(u<-users) {
+               <tr>
+                  <td>@u.getEmail</td>
+                  <td>@u.getRole</td>
+                  <td>@u.getName</td>
+                  <td>@u.getPassword</td>
+                  <!-- Update button -->
+						<td>
+							<a href="@routes.HomeController.updateAdmin(u.getEmail)" class="button-xs btn-danger">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+                        </td>
+                  <!-- Delete button -->
+						<td>
+							<a href="@routes.HomeController.deleteAdmin(u.getEmail)" class="button-xs btn-danger" onclick="return confirmDel();">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+                        </td>
+               </tr>
+            }
+        
+        </tbody>
+    </table>
+
+    <p>
+        <a href="@routes.HomeController.addAdmin()">
+            <button class="btn btn-primary">Add a new Administrator</button>
+        </a>
+    </p>
+</div>
+ }

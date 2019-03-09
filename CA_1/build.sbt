@@ -1,4 +1,4 @@
-name := """CA1"""
+name := """CA 1"""
 
 version := "1.0-SNAPSHOT"
 
