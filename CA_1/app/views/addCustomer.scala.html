@@ -1,0 +1,40 @@
+@(cForm: Form[models.users.Customer],user: models.users.User)
+
+
+@import helper._
+
+@main("Add Customer",user){
+    <p class="lead">Add a new customer</p>
+
+    <!-- Use a views.html.helpers package method to create the form (instead of html)-->
+    <!-- Note the arguments that are being passed to the scala function form (they are
+         essentially instructions for constructing an HTML form element)-->
+    @form(action=routes.HomeController.addCustomerSubmit, 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+             @inputText(cForm("email"), '_label -> "Email", 'class -> "form-control")
+             @inputText(cForm("name"), '_label -> "Name", 'class -> "form-control")
+             @inputDate(cForm("dateOfBirth"), args = 'size -> 10, '_label -> "Date Of Birth", 'class -> "form-control")
+             @inputText(cForm("password"), '_label -> "Password", 'class -> "form-control")         
+             @inputText(cForm("street1"), '_label -> "Street 1", 'class -> "form-control")
+             @inputText(cForm("street2"), '_label -> "Street 2", 'class -> "form-control")
+             @inputText(cForm("town"), '_label -> "Town", 'class -> "form-control")
+             @inputText(cForm("postCode"), '_label -> "PostCode", 'class -> "form-control")
+             @inputText(cForm("creditCard"), '_label -> "Credit Card",'class -> "form-control")
+
+             @inputText(cForm("role").copy(value=Some("customer")), '_label -> "",'hidden -> "hidden")
+             @inputText(cForm("email"), '_label -> "", 'hidden -> "hidden")
+            
+            <!-- We use the bootstrap actions class for the buttons at the bottom:
+                1. The submit button for the form
+                2. A button that allows the user to cancel without adding an item
+            -->
+            <div class="actions">
+                <input type="submit" value="Add/Update Customer" class="btn btn-primary">
+                <a href="@routes.HomeController.usersCustomer()">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } @* end of form *@
+} @* end of main *@
