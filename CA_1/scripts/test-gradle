@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
-set -o pipefail
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/script-helper"
 
 # Using cut because TRAVIS_SCALA_VERSION is the full Scala
-# version (for example 2.12.7), but Gradle expects just the
+# version (for example 2.12.4), but Gradle expects just the
 # binary version (for example 2.12)
 scala_binary_version=$(echo $TRAVIS_SCALA_VERSION | cut -c1-4)
 

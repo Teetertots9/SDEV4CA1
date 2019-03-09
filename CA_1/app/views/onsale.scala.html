@@ -1,0 +1,79 @@
+@(items: List[models.ItemOnSale],categories: List[models.Category], user: models.users.User)
+@main("On Sale", user){
+    <h1>On sale here</h1>
+
+
+    @* Display successful new product message from flash, if it is set *@
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+			@flash.get("success")
+		</div>
+}
+    <div class="col-sm-3">
+		<h4>Categories</h4>
+	        <ul class="list-group">
+                    <a href = "@routes.HomeController.onsale(0)" class="list-group-item">All Categories</a>
+		        @for(c<-categories) {
+			        <a href = "@routes.HomeController.onsale(c.getId())" class="list-group-item catheight">@c.getName
+                        <span class="badge">@c.getItems.size</span> 
+                    </a>
+			    }
+            </ul>
+    </div>
+
+    <div class="col-sm-9">
+        <h4>Note that all products are second hand, unless otherwise stated.</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+        <!-- The header row-->
+        <tr>
+            <th>ID</th>
+            <th>Name Picture</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Product row(s) -->
+       
+            @* Loop for creating table rows from ItemOnSale data *@
+            @for(i<-items) {
+               <tr>
+                  <td>@i.getId</td>
+                  <td>@i.getName</td>
+                  <td>@i.getCategory.getName</td>
+                  <td>@i.getDescription</td>
+                  <td>@i.getStock</td>
+                  <td>&euro; @("%.2f".format(i.getPrice))</td>
+                  <!-- Update button -->
+                  @if((user != null) && ("admin".equals(user.getRole()))){
+						<td>
+                            
+							<a href="@routes.HomeController.updateItem(i.getId)" class="button-xs btn-danger">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+                </td>
+                  <!-- Delete button -->
+						<td>
+							<a href="@routes.HomeController.deleteItem(i.getId)" class="button-xs btn-danger" onclick="return confirmDel();">
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+                </td>
+            }
+               </tr>
+            }
+        
+        </tbody>
+    </table>
+    
+    <p>
+            @if((user != null) && ("admin".equals(user.getRole()))){
+        <a href="@routes.HomeController.addItem()">
+            <button class="btn btn-primary">Add an item</button>
+        </a>
+    }
+</p>
+</div>
+ }

@@ -1,5 +1,5 @@
-@main("Home") {
-
-    <h2>Ca 1 Home page</h2>
-
-}
+@(user: models.users.User)
+@main("Home", user){
+<h1>Welcome to the Online Flea Market! </h1>
+<h3>The place where you can buy anything and sell anyting<br/> (as long as it is legal and morally ok)</h3>
+}		  

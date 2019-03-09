@@ -1,36 +1,77 @@
-@(title: String)(content: Html)
-
+@(pagename:String, user: models.users.User)(content:Html)
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        @* Here's where we render the page title `String`. *@
-        <title>@title</title>
-        <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/styles.css")">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+	    .footer { font-weight: bold; color: white; background-color: black; }
+	    .sidecol { font-weight: bold; background-color: steelblue; }
+	    .sidecol h2 { font-weight: bold; }
+	    .midcol h1 { text-align: center; font-weight: bold; }
+	    .midcol h3 { text-align: center; color: steelblue; }
+	    .redtext { color: red; }
+	</style>
+	<title>OFM @pagename</title>
     </head>
     <body>
-            <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                      <div class="navbar-header">
-                        <a class="navbar-brand" href="#">CA1</a>
-                      </div>
-                      <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Page 1</a></li>
-                        <li><a href="#">Page 2</a></li>
-                      </ul>
-                      <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                      </ul>
-                    </div>
-                  </nav> 
-                  <div class="body_content">
-                    @content
-                  </div>      
+	<nav class="navbar navbar-inverse">
+	    <div class="container-fluid">
+		<div class="navbar-header">
+		    <a class="navbar-brand" href="#">WebSiteName</a>
+		</div>
+		<ul class="nav navbar-nav">
+            <li @if(pagename == "Home") {class="active"}><a href="@routes.HomeController.index()">Home</a></li>
+		    <li @if(pagename == "On Sale") {class="active"}><a href="@routes.HomeController.onsale()">On Sale</a></li>
+			<li @if(pagename == "About") {class="active"}><a href="@routes.HomeController.about()">About us</a></li>
+			<li @if(pagename == "Login") {class="active"}>
+				@if(user != null) {
+					<a href="@routes.LoginController.logout()">Log Out</a>
+				} else {
+					<li @if(pagename == "Register") {class="active"}><a href="@routes.LoginController.registerUser()">Register user</a></li>
+					<a href="@routes.LoginController.login()">Log In</a>
+				}
+				</li>
+				@if((user != null) && ("admin".equals(user.getRole()))) {
+					<li @if(pagename == "Users") {class="active"}><a href="@routes.HomeController.users()">Users</a></li>
+	}
+	
+		</ul>
+	    </div>
+	</nav>
+
+	<div class="container-fluid">
+	    <div class="row">
+		<div class="col-sm-2">
+		    <div class="well sidecol">
+			<h2>News</h2>
+			<h3>New product sub-category</h3>
+			<p>Following the sudden and unprecedented volumes of trade in fashion paper bags, our <span class="redtext">bags</span> category has been extended to include a seventh subcategory, <span class="redtext">paper handbags</span>.
+		    </div>
+		</div>
+		<div class="col-sm-8">
+		    <div class="midcol">
+			@content
+		    </div>
+		</div>
+		<div class="col-sm-2">
+		    <div class="well sidecol">
+			<h2>Events</h2>
+			<h3>The 153rd Meet for Real event</h3>
+			<p>The popular <span class="redtext">Meet for Real</span> event takes place this Sunday at the Square Park, from 7am until 1pm. It will yet again give flea-market enthusiasts a chance to engage in a bit of live bartering and banter with their fellow sitesters.</p>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="col-sm-12">
+		    <div class="well footer">
+			Website created by ABC Sights
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<script src ="@routes.Assets.versioned("javascripts/main.js")"></script>
     </body>
 </html>
+

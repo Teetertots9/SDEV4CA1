@@ -1,0 +1,58 @@
+@(users: List[models.users.User], user: models.users.User)
+@main("Users", user){
+    <h1>Users</h1>
+
+
+    @* Display successful new product message from flash, if it is set *@
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+			@flash.get("success")
+		</div>
+}
+    <div class="col-sm-3">
+		
+    </div>
+
+    <div class="col-sm-9">
+        <h4>Users</h4>
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+        <!-- The header row-->
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Name</th>
+            <th>Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Product row(s) -->
+       
+            @* Loop for creating table rows from ItemOnSale data *@
+            @for(i<-users) {
+               <tr>
+                  <td>@i.getEmail</td>
+                  <td>@i.getRole</td>
+                  <td>@i.getName</td>
+                  <td>@i.getPassword</td>
+                  
+                            
+							
+                </td>
+                  <!-- Delete button -->
+						
+                </td>
+            }
+               </tr>
+            
+        
+        </tbody>
+    </table>
+    
+    <p>
+            @if((user != null) && ("admin".equals(user.getRole()))){
+        
+    }
+</p>
+</div>
+ }

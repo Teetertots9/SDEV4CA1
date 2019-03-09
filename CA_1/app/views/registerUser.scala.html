@@ -1,0 +1,49 @@
+@(userForm: Form[models.users.UserPassword2],user: models.users.User)
+
+@import helper._
+
+@main("Register User",user){
+    <p class="lead">Add a new user</p>
+
+    @* Display error message from flash, if it is set *@
+	@if(flash.containsKey("error")) {
+		<div class="alert alert-success">
+			@flash.get("error")
+		</div>
+	}
+
+    <!-- Use a views.html.helpers package method to create the form (instead of html)-->
+    <!-- Note the arguments that are being passed to the scala function form (they are
+         essentially instructions for constructing an HTML form element)-->
+    @form(action=routes.LoginController.registerUserSubmit(), 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+
+        <!-- Use helper methods to add fields to the form -->
+        <!-- Note that the form fields are related to the fields of the itemForm object -->
+        <!-- Note the arguments that are being passed to the scala function inputText (they are 
+             essentially instructions for constructing an HTML input element)-->
+        <!-- Note the @select function's argument options. This needs to be a map of ids-to-names
+             and this is provided by the method Category.options(), which we added to the Category
+             class in the previous step. -->
+            @inputText(userForm("email"), '_label -> "Email", 'class -> "form-control")
+            @inputText(userForm("name"), '_label -> "Name", 'class -> "form-control")
+            @inputText(userForm("password"), '_label -> "Password", 'class -> "form-control")
+            @inputText(userForm("password2"), '_label -> "Confirm Password", 'class -> "form-control")
+            
+            @inputText(userForm("role").copy(value=Some("customer")), '_label -> "",'hidden -> "hidden")
+            @inputText(userForm("email"), '_label -> "", 'hidden -> "hidden")
+            
+            <!-- We use the bootstrap actions class for the buttons at the bottom:
+                1. The submit button for the form
+                2. A button that allows the user to cancel without adding an item
+            -->
+            <div class="actions">
+                <input type="submit" value="Register user" class="btn btn-primary">
+                <a href="@routes.LoginController.registerUser()">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } @* end of form *@
+} @* end of main *@
