@@ -45,7 +45,7 @@ user: models.users.User,env: play.api.Environment)
                     @if(env.resource("public/images/productImages/" + i.getId + "thumb.jpg").isDefined) {
                         <td><img src="/assets/images/productImages/@(i.getId + "thumb.jpg")"/></td>
                     } else {
-                        <td><img src="/assets/images/productImages/noImage.png"/></td>
+                        <td><img src="/assets/images/productImages/noImage.pnggit "/></td>
 }
                   <td>@i.getId</td>
                   <td>@i.getName</td>
