@@ -1,4 +1,4 @@
-package models;
+package models.products;
 
 import java.util.*;
 import javax.persistence.*;
@@ -21,8 +21,10 @@ public class ItemOnSale extends Model {
     @Constraints.Required
     private double price;
 
-    @ManyToOne
-    private Category category;
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy = "items")
+    private List<Category> categories;
+
+    private List<Long> catSelect = new ArrayList<Long>();
 
     // Default Constructor
     public ItemOnSale() {
@@ -39,9 +41,9 @@ public class ItemOnSale extends Model {
 
     public static final Finder<Long, ItemOnSale> find = new Finder<>(ItemOnSale.class);
 			    
-public static final List<ItemOnSale> findAll() {
-   return ItemOnSale.find.all();
-}
+    public static final List<ItemOnSale> findAll() {
+        return ItemOnSale.find.all();
+    }
 
     // Accessor methods
     public Long getId() {
@@ -75,10 +77,16 @@ public static final List<ItemOnSale> findAll() {
         this.price = price;
 }
 
-public Category getCategory() {
-    return category;
+public List<Category> getCategories() {
+    return categories;
 }
-public void setCategory(Category category) {
-    this.category = category;
+public void setCategories(List <Category> categories) {
+    this.categories = categories;
+}
+public List<Long> getCatSelect() {
+    return catSelect;
+}
+public void setCatSelect(List<Long> catSelect) {
+    this.catSelect = catSelect;
 }
 }

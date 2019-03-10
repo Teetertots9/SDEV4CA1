@@ -1,5 +1,6 @@
-@(items: List[models.ItemOnSale],categories: List[models.Category], user: models.users.User)
-@main("On Sale", user){
+@(items: List[models.products.ItemOnSale],categories: List[models.products.Category],
+user: models.users.User,env: play.api.Environment)
+@main("On Sale",user){
     <h1>On sale here</h1>
 
 
@@ -27,9 +28,9 @@
             <thead>
         <!-- The header row-->
         <tr>
+            <th>Image</th>
             <th>ID</th>
-            <th>Name Picture</th>
-            <th>Category</th>
+            <th>Name</th>
             <th>Description</th>
             <th>Stock</th>
             <th>Price</th>
@@ -41,39 +42,42 @@
             @* Loop for creating table rows from ItemOnSale data *@
             @for(i<-items) {
                <tr>
+                    @if(env.resource("public/images/productImages/" + i.getId + "thumb.jpg").isDefined) {
+                        <td><img src="/assets/images/productImages/@(i.getId + "thumb.jpg")"/></td>
+                    } else {
+                        <td><img src="/assets/images/productImages/noImage.png"/></td>
+}
                   <td>@i.getId</td>
                   <td>@i.getName</td>
-                  <td>@i.getCategory.getName</td>
                   <td>@i.getDescription</td>
                   <td>@i.getStock</td>
                   <td>&euro; @("%.2f".format(i.getPrice))</td>
+
+                  @if((user != null) && ("admin".equals(user.getRole()))) {
                   <!-- Update button -->
-                  @if((user != null) && ("admin".equals(user.getRole()))){
 						<td>
-                            
 							<a href="@routes.HomeController.updateItem(i.getId)" class="button-xs btn-danger">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</a>
-                </td>
+                        </td>
                   <!-- Delete button -->
 						<td>
 							<a href="@routes.HomeController.deleteItem(i.getId)" class="button-xs btn-danger" onclick="return confirmDel();">
 								<span class="glyphicon glyphicon-trash"></span>
 							</a>
-                </td>
-            }
+                        </td>
+                  }
                </tr>
             }
         
         </tbody>
     </table>
-    
+    @if((user != null) && ("admin".equals(user.getRole()))) {
     <p>
-            @if((user != null) && ("admin".equals(user.getRole()))){
         <a href="@routes.HomeController.addItem()">
             <button class="btn btn-primary">Add an item</button>
         </a>
+    </p>
     }
-</p>
 </div>
  }

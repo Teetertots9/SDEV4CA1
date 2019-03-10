@@ -14,6 +14,16 @@ import javax.inject.Inject;
 
 import models.*;
 import models.users.*;
+import models.products.*;
+
+import play.mvc.Http.*;
+import play.mvc.Http.MultipartFormData.FilePart;
+import java.io.File;
+
+import java.io.IOException;
+import java.awt.image.*;
+import javax.imageio.*;
+import org.imgscalr.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -22,10 +32,12 @@ import models.users.*;
 public class HomeController extends Controller {
 
     private FormFactory formFactory;
+    private Environment e;
 
     @Inject
-    public HomeController(FormFactory f) {
+    public HomeController(FormFactory f,Environment env) {
         this.formFactory = f;
+        this.e = env;
 }
     /**
      * An action that renders an HTML page with a welcome message.
@@ -42,7 +54,7 @@ public class HomeController extends Controller {
         }else {
             itemList = Category.find.ref(cat).getItems();
         }
-        return ok(onsale.render(itemList, categoryList,User.getUserById(session().get("email"))));
+        return ok(onsale.render(itemList, categoryList,User.getUserById(session().get("email")),e));
 
      }
 
@@ -67,16 +79,116 @@ public Result addItemSubmit() {
         return badRequest(addItem.render(newItemForm,User.getUserById(session().get("email"))));
     } else {
         ItemOnSale newItem = newItemForm.get();
+
+        List<Category> newCats = new ArrayList<Category>();
+        for (Long cat : newItem.getCatSelect()) {
+            newCats.add(Category.find.byId(cat));
+        }
+        newItem.setCategories (newCats);
         
         if(newItem.getId()==null){
         newItem.save();
         }else{
             newItem.update();
         }
-        flash("success", "Item " + newItem.getName() + " was added/updated.");
+        // We extract the multipart form data from the request.
+        MultipartFormData<File> data = request().body().asMultipartFormData();
+        // Then we extract the particular file associated with the field named "upload".
+        FilePart<File> image = data.getFile("upload");
+        // Finally, we save the image, using method saveFile(). We do not store the
+        // binary content of the image in the database, as this would be inefficient due
+        // to encoding and decoding overhead. 
+        String saveImageMessage = saveFile(newItem.getId(), image);
+        flash("success", "Item " + newItem.getName() + " was added/updated" +saveImageMessage);
         return redirect(controllers.routes.HomeController.onsale(0));
     }
 }
+public String saveFileOld(Long id, FilePart<File> uploaded) {
+    // Make sure that the file exists.
+    if (uploaded != null) {
+        // Make sure that the content is actually an image.
+        String mimeType = uploaded.getContentType();
+        if (mimeType.startsWith("image/")) {
+            // Get the file name.
+            String fileName = uploaded.getFilename();
+            // Extract the extension from the file name.
+            String extension = "";
+            int i = fileName.lastIndexOf('.');
+            if (i >= 0) {
+                extension = fileName.substring(i + 1);
+            }
+            // Now we save the file (not that if the file is saved without
+            // a path specified, it is saved to a default location,
+            // usually the temp or tmp directory).
+            // 1) Create a file object from the uploaded file part.
+            File file = uploaded.getFile();
+            // 2) Make sure that our destination directory exists and if 
+            //    not create it.
+            File dir = new File("public/images/productImages");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File newFile = new File("public/images/productImages/", id + "." + extension);
+            if (file.renameTo(newFile)) {
+                return "/ file uploaded.";
+            } else {
+                return "/ file upload failed.";
+            }
+
+        }
+    }
+    return "/ no image file.";
+}
+
+public String saveFile(Long id, FilePart<File> uploaded) {
+    // Make sure that the file exists.
+    if (uploaded != null) {
+        // Make sure that the content is actually an image.
+        String mimeType = uploaded.getContentType();
+        if (mimeType.startsWith("image/")) {
+            // Get the file name.
+            String fileName = uploaded.getFilename();
+            // Extract the extension from the file name.
+            String extension = "";
+            int i = fileName.lastIndexOf('.');
+            if (i >= 0) {
+                extension = fileName.substring(i + 1);
+            }
+            // Now we save the file (not that if the file is saved without
+            // a path specified, it is saved to a default location,
+            // usually the temp or tmp directory).
+            // 1) Create a file object from the uploaded file part.
+            File file = uploaded.getFile();
+            // 2) Make sure that our destination directory exists and if 
+            //    not create it.
+            File dir = new File("public/images/productImages");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            // 3) Actually save the file.
+            File newFile = new File("public/images/productImages/", id + "." + extension);
+            if (file.renameTo(newFile)) {
+                try {
+                    BufferedImage img = ImageIO.read(newFile); 
+                    BufferedImage scaledImg = Scalr.resize(img, 90);
+                    
+                    if (ImageIO.write(scaledImg, extension, new File("public/images/productImages/", id + "thumb.jpg"))) {
+                        return "/ file uploaded and thumbnail created.";
+                    } else {
+                        return "/ file uploaded but thumbnail creation failed.";
+                    }
+                } catch (IOException e) {
+                    return "/ file uploaded but thumbnail creation failed.";
+                }
+            } else {
+                return "/ file upload failed.";
+            }
+
+        }
+    }
+    return "/ no image file.";
+}
+
 @Security.Authenticated(Secured.class)
 @Transactional
 @With(AuthAdmin.class)
@@ -187,6 +299,10 @@ if (newUserForm.hasErrors()) {
     return badRequest(addCustomer.render(newUserForm,User.getUserById(session().get("email"))));
 } else {
     Customer newUser = newUserForm.get();
+    System.out.println("Name: "+newUserForm.field("name").getValue().get());
+    System.out.println("Email: "+newUserForm.field("email").getValue().get());
+    System.out.println("Password: "+newUserForm.field("password").getValue().get());
+    System.out.println("Role: "+newUserForm.field("role").getValue().get());
     
     if(User.getUserById(newUser.getEmail())==null){
         newUser.save();

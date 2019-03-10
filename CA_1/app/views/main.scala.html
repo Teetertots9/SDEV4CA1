@@ -1,4 +1,4 @@
-@(pagename:String, user: models.users.User)(content:Html)
+@(pagename:String,user: models.users.User)(content:Html)
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,19 +25,23 @@
             <li @if(pagename == "Home") {class="active"}><a href="@routes.HomeController.index()">Home</a></li>
 		    <li @if(pagename == "On Sale") {class="active"}><a href="@routes.HomeController.onsale()">On Sale</a></li>
 			<li @if(pagename == "About") {class="active"}><a href="@routes.HomeController.about()">About us</a></li>
-			<li @if(pagename == "Login") {class="active"}>
+			@if((user != null) && ("admin".equals(user.getRole()))) {
+				<li @if(pagename == "Administrators") {class="active"}><a href="@routes.HomeController.usersAdmin()">View Admin</a></li>
+				<li @if(pagename == "Customers") {class="active"}><a href="@routes.HomeController.usersCustomer()">View Customers</a></li>
+
+			}
+			
+			
+			<li @if(pagename == "Log In") {class="active"}>
 				@if(user != null) {
 					<a href="@routes.LoginController.logout()">Log Out</a>
 				} else {
-					<li @if(pagename == "Register") {class="active"}><a href="@routes.LoginController.registerUser()">Register user</a></li>
 					<a href="@routes.LoginController.login()">Log In</a>
-				}
-				</li>
-				@if((user != null) && ("admin".equals(user.getRole()))) {
-					<li @if(pagename == "Users") {class="active"}><a href="@routes.HomeController.usersCustomers()">View Customers</a></li>
-					<li @if(pagename == "Administrators") {class="active"}><a href="@routes.HomeController.usersAdmin()">View Admin</a></li>
-	}
-	
+			</li>
+			@if(user == null) {
+				<li @if(pagename == "Register") {class="active"}><a href="@routes.LoginController.registerUser()">Register user</a></li>
+			}
+} 
 		</ul>
 	    </div>
 	</nav>
@@ -75,4 +79,3 @@
 	<script src ="@routes.Assets.versioned("javascripts/main.js")"></script>
     </body>
 </html>
-

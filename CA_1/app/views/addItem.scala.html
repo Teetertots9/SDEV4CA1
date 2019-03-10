@@ -1,14 +1,16 @@
-@(itemForm: Form[models.ItemOnSale], user: models.users.User)
+@(itemForm: Form[models.products.ItemOnSale],user: models.users.User)
+
 
 @import helper._
 
-@main("Add Item", user){
+@main("Add Item",user){
     <p class="lead">Add a new item</p>
 
     <!-- Use a views.html.helpers package method to create the form (instead of html)-->
     <!-- Note the arguments that are being passed to the scala function form (they are
          essentially instructions for constructing an HTML form element)-->
-    @form(action=routes.HomeController.addItemSubmit(), 'class -> "form-horizontal", 'role -> "form") {
+    @form(action=routes.HomeController.addItemSubmit(), 'class -> "form-horizontal", 'role -> "form",
+           'method -> "POST", 'enctype -> "multipart/form-data") {
         @* CSRF attack prevention *@
         @* This token, sent by the controller, will be used to authenticate the form submission *@
         @CSRF.formField
@@ -21,15 +23,24 @@
              and this is provided by the method Category.options(), which we added to the Category
              class in the previous step. -->
             @inputText(itemForm("name"), '_label -> "Name", 'class -> "form-control")
-            @select(
-                itemForm("category.id"),
-                options(Category.options),
-                '_label -> "Category", '_default -> "-- Choose a category --", 
-                '_showConstraints -> false, 'class -> "form-control"
-            )
+            <p><strong>Categories</strong></p>
+            @for((value, name) <- products.Category.options) {
+                <input type="checkbox" name="catSelect[]" value="@value"  
+                    @if(itemForm("id").getValue.isPresent && itemForm("id").getValue.get != "") { 
+                        @if(products.Category.inCategory(value.toLong, itemForm("id").getValue.get.toLong)) {
+                            checked
+                        }
+                    } 
+                /> @name </br>
+            }
+            </p>
+            
             @inputText(itemForm("description"), '_label -> "Description", 'class -> "form-control")
             @inputText(itemForm("stock"), '_label -> "Stock", 'class -> "form-control")
             @inputText(itemForm("price"), '_label -> "Price", 'class -> "form-control")
+
+            <label>Image Upload</label>
+            <input class="btn-sm btn-default" type="file" name="upload">    
 
             @inputText(itemForm("id"), '_label -> "", 'hidden -> "hidden")
             

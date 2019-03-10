@@ -6,7 +6,7 @@ import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
 
-@Table(name = "user")
+@Table(name = "User")
 @DiscriminatorValue("c")
 
 @Entity
