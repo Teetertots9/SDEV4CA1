@@ -17,6 +17,7 @@ public class Employee extends User {
     @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
     private Address address;
 
+    @ManyToMany(cascade=CascadeType.ALL)
     private List<Project> projects = new ArrayList<>();
 
     public Employee() {
@@ -54,10 +55,12 @@ public class Employee extends User {
     }
 
     public void assignToProject(Project proj){
-        projects.add(proj);
+        this.projects.add(proj);
+        proj.getEmployees().add(this);
     }
     public void removeFromProject(Project proj){
-        projects.remove(proj);
+        this.projects.remove(proj);
+        proj.getEmployees().remove(this);
     }
 
     public static final Finder<Long, Employee> find = new Finder<>(Employee.class);

@@ -40,6 +40,11 @@ create table item_on_sale (
   constraint pk_item_on_sale primary key (id)
 );
 
+create table project (
+  proj_name                     varchar(255) not null,
+  constraint pk_project primary key (proj_name)
+);
+
 create table user (
   type                          varchar(31) not null,
   email                         varchar(255) not null,
@@ -56,6 +61,12 @@ create table user (
   constraint pk_user primary key (email)
 );
 
+create table user_project (
+  user_email                    varchar(255) not null,
+  project_proj_name             varchar(255) not null,
+  constraint pk_user_project primary key (user_email,project_proj_name)
+);
+
 alter table address add constraint fk_address_employee_email foreign key (employee_email) references user (email) on delete restrict on update restrict;
 
 alter table category_item_on_sale add constraint fk_category_item_on_sale_category foreign key (category_id) references category (id) on delete restrict on update restrict;
@@ -66,6 +77,12 @@ create index ix_category_item_on_sale_item_on_sale on category_item_on_sale (ite
 
 alter table user add constraint fk_user_department_name foreign key (department_name) references department (name) on delete restrict on update restrict;
 create index ix_user_department_name on user (department_name);
+
+alter table user_project add constraint fk_user_project_user foreign key (user_email) references user (email) on delete restrict on update restrict;
+create index ix_user_project_user on user_project (user_email);
+
+alter table user_project add constraint fk_user_project_project foreign key (project_proj_name) references project (proj_name) on delete restrict on update restrict;
+create index ix_user_project_project on user_project (project_proj_name);
 
 
 # --- !Downs
@@ -81,6 +98,12 @@ drop index if exists ix_category_item_on_sale_item_on_sale;
 alter table user drop constraint if exists fk_user_department_name;
 drop index if exists ix_user_department_name;
 
+alter table user_project drop constraint if exists fk_user_project_user;
+drop index if exists ix_user_project_user;
+
+alter table user_project drop constraint if exists fk_user_project_project;
+drop index if exists ix_user_project_project;
+
 drop table if exists address;
 
 drop table if exists category;
@@ -91,5 +114,9 @@ drop table if exists department;
 
 drop table if exists item_on_sale;
 
+drop table if exists project;
+
 drop table if exists user;
+
+drop table if exists user_project;
 
