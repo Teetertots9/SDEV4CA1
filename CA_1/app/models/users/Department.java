@@ -6,10 +6,14 @@ import javax.persistence.*;
 
 import io.ebean.*;
 
-
+@Table(name = "department")
+@Entity
 public class Department {
+    @Id
     private String name;
-     private List<Employee> employees = new ArrayList<>();
+
+    @OneToMany(mappedBy="department", cascade = CascadeType.ALL)
+    private List<Employee> employees = new ArrayList<>();
 
     public Department() {
     }

@@ -11,7 +11,7 @@ import io.ebean.*;
 
 public class Employee extends User {
     
-    
+    @ManyToOne
     private Department department;
 
     @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)

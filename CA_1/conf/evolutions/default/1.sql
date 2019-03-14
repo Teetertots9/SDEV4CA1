@@ -26,6 +26,11 @@ create table category_item_on_sale (
   constraint pk_category_item_on_sale primary key (category_id,item_on_sale_id)
 );
 
+create table department (
+  name                          varchar(255) not null,
+  constraint pk_department primary key (name)
+);
+
 create table item_on_sale (
   id                            bigint auto_increment not null,
   name                          varchar(255),
@@ -42,6 +47,7 @@ create table user (
   name                          varchar(255),
   password                      varchar(255),
   role                          varchar(255),
+  department_name               varchar(255),
   street1                       varchar(255),
   street2                       varchar(255),
   town                          varchar(255),
@@ -58,6 +64,9 @@ create index ix_category_item_on_sale_category on category_item_on_sale (categor
 alter table category_item_on_sale add constraint fk_category_item_on_sale_item_on_sale foreign key (item_on_sale_id) references item_on_sale (id) on delete restrict on update restrict;
 create index ix_category_item_on_sale_item_on_sale on category_item_on_sale (item_on_sale_id);
 
+alter table user add constraint fk_user_department_name foreign key (department_name) references department (name) on delete restrict on update restrict;
+create index ix_user_department_name on user (department_name);
+
 
 # --- !Downs
 
@@ -69,11 +78,16 @@ drop index if exists ix_category_item_on_sale_category;
 alter table category_item_on_sale drop constraint if exists fk_category_item_on_sale_item_on_sale;
 drop index if exists ix_category_item_on_sale_item_on_sale;
 
+alter table user drop constraint if exists fk_user_department_name;
+drop index if exists ix_user_department_name;
+
 drop table if exists address;
 
 drop table if exists category;
 
 drop table if exists category_item_on_sale;
+
+drop table if exists department;
 
 drop table if exists item_on_sale;
 
