@@ -6,7 +6,7 @@ import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
 
-@Table(name="User")
+@Table(name="user")
 @DiscriminatorValue("m")
 @Entity
 public class Manager extends User{

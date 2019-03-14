@@ -3,6 +3,17 @@
 
 # --- !Ups
 
+create table address (
+  address_id                    bigint auto_increment not null,
+  street1                       varchar(255),
+  street2                       varchar(255),
+  town                          varchar(255),
+  post_code                     varchar(255),
+  employee_email                varchar(255),
+  constraint uq_address_employee_email unique (employee_email),
+  constraint pk_address primary key (address_id)
+);
+
 create table category (
   id                            bigint auto_increment not null,
   name                          varchar(255),
@@ -39,6 +50,8 @@ create table user (
   constraint pk_user primary key (email)
 );
 
+alter table address add constraint fk_address_employee_email foreign key (employee_email) references user (email) on delete restrict on update restrict;
+
 alter table category_item_on_sale add constraint fk_category_item_on_sale_category foreign key (category_id) references category (id) on delete restrict on update restrict;
 create index ix_category_item_on_sale_category on category_item_on_sale (category_id);
 
@@ -48,11 +61,15 @@ create index ix_category_item_on_sale_item_on_sale on category_item_on_sale (ite
 
 # --- !Downs
 
+alter table address drop constraint if exists fk_address_employee_email;
+
 alter table category_item_on_sale drop constraint if exists fk_category_item_on_sale_category;
 drop index if exists ix_category_item_on_sale_category;
 
 alter table category_item_on_sale drop constraint if exists fk_category_item_on_sale_item_on_sale;
 drop index if exists ix_category_item_on_sale_item_on_sale;
+
+drop table if exists address;
 
 drop table if exists category;
 

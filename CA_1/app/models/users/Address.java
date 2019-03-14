@@ -4,18 +4,21 @@ import models.users.*;
 
 import java.util.*;
 import javax.persistence.*;
-
 import io.ebean.*;
-import play.data.format.*;
-import play.data.validation.*;
 
+@Entity
 public class Address{
-     private int addressID;
+
+    @Id
+    private Long addressID;
+    
     private String street1;
     private String street2;
     private String town;
     private String postCode;
-     private Employee employee;
+
+    @OneToOne
+    private Employee employee;
 
     public Address(){
 
@@ -27,6 +30,9 @@ public class Address{
         postCode = post;
     }
 
+    public void setID(Long id){
+        addressID = id;
+    }
     public void setStreet1(String street1){
         this.street1 = street1;
     }
@@ -39,7 +45,13 @@ public class Address{
     public void setPostCode(String pc){
         postCode = pc;
     }
+    public void addEmployee(Employee emp){
+        employee = emp;
+    }
 
+    public Long getID(){
+        return addressID;
+    }
     public String getStreet1(){
         return street1;
     }
@@ -51,6 +63,17 @@ public class Address{
     }
     public String getPostCode(){
         return postCode;
+    }
+    public Employee getEmployee(){
+        return employee;
+    }
+
+    
+
+    public static Finder<Long,Address> find = new Finder<Long,Address>(Address.class);
+
+    public static List<Address> findAll() {
+        return Address.find.all();
     }
 
 

@@ -5,11 +5,17 @@ import java.util.*;
 import javax.persistence.*;
 import io.ebean.*;
 
+@Table(name = "user")
+@DiscriminatorValue("e")
+@Entity
+
 public class Employee extends User {
+    
     
     private Department department;
 
-     private Address address;
+    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
+    private Address address;
 
     private List<Project> projects = new ArrayList<>();
 

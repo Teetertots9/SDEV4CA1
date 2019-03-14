@@ -8,7 +8,7 @@ import play.data.format.*;
 import play.data.validation.*;
 
 
-@Table(name="User")
+@Table(name="user")
 // the user type of this class is "admin"
 @DiscriminatorValue("a")
 @Entity
