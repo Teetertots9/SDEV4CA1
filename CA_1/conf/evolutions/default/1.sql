@@ -27,8 +27,9 @@ create table category_item_on_sale (
 );
 
 create table department (
-  name                          varchar(255) not null,
-  constraint pk_department primary key (name)
+  id                            bigint auto_increment not null,
+  name                          varchar(255),
+  constraint pk_department primary key (id)
 );
 
 create table item_on_sale (
@@ -52,7 +53,7 @@ create table user (
   name                          varchar(255),
   password                      varchar(255),
   role                          varchar(255),
-  department_name               varchar(255),
+  department_id                 bigint,
   street1                       varchar(255),
   street2                       varchar(255),
   town                          varchar(255),
@@ -75,8 +76,8 @@ create index ix_category_item_on_sale_category on category_item_on_sale (categor
 alter table category_item_on_sale add constraint fk_category_item_on_sale_item_on_sale foreign key (item_on_sale_id) references item_on_sale (id) on delete restrict on update restrict;
 create index ix_category_item_on_sale_item_on_sale on category_item_on_sale (item_on_sale_id);
 
-alter table user add constraint fk_user_department_name foreign key (department_name) references department (name) on delete restrict on update restrict;
-create index ix_user_department_name on user (department_name);
+alter table user add constraint fk_user_department_id foreign key (department_id) references department (id) on delete restrict on update restrict;
+create index ix_user_department_id on user (department_id);
 
 alter table user_project add constraint fk_user_project_user foreign key (user_email) references user (email) on delete restrict on update restrict;
 create index ix_user_project_user on user_project (user_email);
@@ -95,8 +96,8 @@ drop index if exists ix_category_item_on_sale_category;
 alter table category_item_on_sale drop constraint if exists fk_category_item_on_sale_item_on_sale;
 drop index if exists ix_category_item_on_sale_item_on_sale;
 
-alter table user drop constraint if exists fk_user_department_name;
-drop index if exists ix_user_department_name;
+alter table user drop constraint if exists fk_user_department_id;
+drop index if exists ix_user_department_id;
 
 alter table user_project drop constraint if exists fk_user_project_user;
 drop index if exists ix_user_project_user;

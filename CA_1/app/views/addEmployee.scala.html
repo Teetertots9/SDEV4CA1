@@ -1,0 +1,32 @@
+@(userForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
+@import helper._
+
+@main("Add Employee",user){
+    <p class="lead">Add a new Employee</p>
+
+    @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form"){
+        @CSRF.formField
+
+        
+        
+
+
+        @inputText(userForm("email"), '_label -> "Email", 'class -> "form-control")
+        @inputText(userForm("role"), '_label -> "Role", 'class -> "form-control")
+        @inputText(userForm("name"), '_label -> "Name", 'class -> "form-control")
+        @inputText(userForm("role").copy(value=Some("customer")), '_label -> "", 'hidden -> "hidden")
+        @inputText(userForm("password"), '_label -> "Password", 'class -> "form-control")
+        @inputText(addressForm("street1"), '_label -> "Address 1:", 'class -> "form-control")
+        @inputText(addressForm("street2"), '_label -> "Address 2:", 'class -> "form-control")
+        @inputText(addressForm("town"), '_label -> "Town", 'class -> "form-control")
+        @inputText(addressForm("postCode"), '_label -> "Post Code", 'class -> "form-control")
+
+
+        <div class="actions">
+            <input type="submit" value="Add/Update Employee" class="btn btn-primary">
+            <a href="@routes.EmployeeController.usersEmployee()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

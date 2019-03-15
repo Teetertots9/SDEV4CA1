@@ -10,6 +10,7 @@ import io.ebean.*;
 @Entity
 public class Department {
     @Id
+    private Long id;
     private String name;
 
     @OneToMany(mappedBy="department", cascade = CascadeType.ALL)
@@ -23,11 +24,18 @@ public class Department {
         employees = emps;
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
     public void setName(String name){
         this.name = name;
     }
     public void setEmployees(List<Employee> emps){
         employees = emps;
+    }
+
+    public Long getId(){
+        return id;
     }
     public String getName(){
         return name;
@@ -46,5 +54,13 @@ public class Department {
 
     public static final List<Department> findAll() {
         return Department.find.all();
+    }
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
+        for (Department d: Department.findAll()) {
+            options.put(d.getId().toString(), d.getName());
+        }
+        return options;
     }
 }

@@ -40,7 +40,7 @@ GET     /login                      controllers.LoginController.login
 GET     /loginSubmit                controllers.LoginController.loginSubmit
 
 
-GET     /logout                      controllers.LoginController.logout
+GET     /logout                     controllers.LoginController.logout
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -48,3 +48,10 @@ GET     /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#Employee routes
+GET     /employees                  controllers.EmployeeController.usersEmployee
+GET     /addEmployee                controllers.EmployeeController.addEmployee
+POST    /addEmployeeSubmit          controllers.EmployeeController.addEmployeeSubmit
+GET     /deleteEmployee/:id         controllers.EmployeeController.deleteEmployee(id: String)
+GET     /updateEmployee/:id         controllers.EmployeeController.updateEmployee(id: String)
