@@ -16,16 +16,6 @@ GET     /deleteItem/:id             controllers.HomeController.deleteItem(id: Lo
 POST    /addItemSubmit              controllers.HomeController.addItemSubmit
 
 
-GET     /deleteAdmin/:id            controllers.HomeController.deleteAdmin(id: String)
-
-GET     /updateAdmin/:id            controllers.HomeController.updateAdmin(id: String)
-
-GET     /admin                      controllers.HomeController.usersAdmin
-
-
-GET     /addAdmin                   controllers.HomeController.addAdmin
-POST    /addAdminSubmit             controllers.HomeController.addAdminSubmit
-
 
 GET     /registerUser               controllers.LoginController.registerUser
 POST    /registerUserSubmit         controllers.LoginController.registerUserSubmit()

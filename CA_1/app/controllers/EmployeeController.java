@@ -65,7 +65,7 @@ public class EmployeeController extends Controller{
 
     @Security.Authenticated(Secured.class)
     @Transactional
-    @With(AuthAdmin.class)
+    @With(AuthManager.class)
     public Result deleteEmployee(String email) {
 
         Employee emp = (Employee) User.getUserById(email);
@@ -83,7 +83,7 @@ public class EmployeeController extends Controller{
     }
 
     @Security.Authenticated(Secured.class)
-    @With(AuthAdmin.class)
+    @With(AuthManager.class)
     @Transactional
     public Result addEmployeeSubmit(){
         Form<Employee> newEmployeeForm = formFactory.form(Employee.class).bindFromRequest();
