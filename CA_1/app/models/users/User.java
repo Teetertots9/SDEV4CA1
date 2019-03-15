@@ -20,9 +20,9 @@ public class User extends Model {
     @Id
     private String email;
 
-    @Constraints.Required
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+//    @Constraints.Required
+//    @Temporal(TemporalType.DATE)
+//    private Date dateOfBirth;
 
     @Constraints.Required
     private String name;
@@ -37,9 +37,9 @@ public class User extends Model {
 
     public static final Finder<Long, User> find = new Finder<>(User.class);
 
-    // public static final List<User> findAll() {
-    //     return User.find.all();
-    // }
+//     public static final List<User> findAll() {
+//         return User.find.all();
+//     }
 
     public static User authenticate(String email, String password) {
         return find.query().where().eq("email", email).eq("password", password).findUnique();
@@ -63,13 +63,13 @@ public class User extends Model {
         this.password = password;
     }
 
-    public User(String email, String name, String role, String password, Date dateOfBirth) {
-        this.email = email;
-        this.name = name;
-        this.role = role;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-    }
+//    public User(String email, String name, String role, String password, Date dateOfBirth) {
+//        this.email = email;
+//        this.name = name;
+//        this.role = role;
+//        this.password = password;
+//        this.dateOfBirth = dateOfBirth;
+//    }
 
     public String getEmail() {
         return email;
@@ -94,15 +94,15 @@ public class User extends Model {
     public void setName(String name) {
         this.name = name;
     }
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-    public String getDateOfBirthString() {
-        return String.format("%1$td %1$tB %1$tY", dateOfBirth);
-      }
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+//    public Date getDateOfBirth() {
+//        return dateOfBirth;
+//    }
+//    public String getDateOfBirthString() {
+//        return String.format("%1$td %1$tB %1$tY", dateOfBirth);
+//      }
+//    public void setDateOfBirth(Date dateOfBirth) {
+//        this.dateOfBirth = dateOfBirth;
+//    }
 
     public String getPassword() {
         return password;

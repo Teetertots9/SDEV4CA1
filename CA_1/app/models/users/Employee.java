@@ -27,12 +27,17 @@ public class Employee extends User {
         super(email, role, name, password);
     }
 
-    public Employee(String email, String role, String name, String password, Date dob, Department dep, Address address,
+    public Employee(String email, String role, String name, String password, Department dep, Address address,
             List<Project> projects) {
-        super(email, role, name, password, dob);
+        super(email, role, name, password);
         this.department = dep;
         this.address = address;
         this.projects = projects;
+    }
+    public Employee(String email, String role, String name, String password, Department dep, Address address){
+        super(email, role, name, password);
+        this.department = dep;
+        this.address = address;
     }
     public void setDepartment(Department dep){
         this.department = dep;

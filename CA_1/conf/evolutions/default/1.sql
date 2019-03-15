@@ -49,16 +49,10 @@ create table project (
 create table user (
   type                          varchar(31) not null,
   email                         varchar(255) not null,
-  date_of_birth                 date,
   name                          varchar(255),
   password                      varchar(255),
   role                          varchar(255),
   department_id                 bigint,
-  street1                       varchar(255),
-  street2                       varchar(255),
-  town                          varchar(255),
-  post_code                     varchar(255),
-  credit_card                   varchar(255),
   constraint pk_user primary key (email)
 );
 

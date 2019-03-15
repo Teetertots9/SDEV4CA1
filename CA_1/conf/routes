@@ -15,21 +15,17 @@ GET     /deleteItem/:id             controllers.HomeController.deleteItem(id: Lo
 
 POST    /addItemSubmit              controllers.HomeController.addItemSubmit
 
-GET     /deleteCustomer/:id         controllers.HomeController.deleteCustomer(id: String)
+
 GET     /deleteAdmin/:id            controllers.HomeController.deleteAdmin(id: String)
 
-GET     /updateCustomer/:id         controllers.HomeController.updateCustomer(id: String)
 GET     /updateAdmin/:id            controllers.HomeController.updateAdmin(id: String)
 
 GET     /admin                      controllers.HomeController.usersAdmin
-GET     /customers                  controllers.HomeController.usersCustomer
 
 
 GET     /addAdmin                   controllers.HomeController.addAdmin
 POST    /addAdminSubmit             controllers.HomeController.addAdminSubmit
 
-GET     /addCustomer                controllers.HomeController.addCustomer
-POST    /addCustomerSubmit          controllers.HomeController.addCustomerSubmit
 
 GET     /registerUser               controllers.LoginController.registerUser
 POST    /registerUserSubmit         controllers.LoginController.registerUserSubmit()

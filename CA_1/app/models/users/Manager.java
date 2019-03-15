@@ -15,8 +15,8 @@ public class Manager extends User{
 
     }
 
-    public Manager(String email,String name,String role,String password, Date dob){
-        super(email,name,role,password,dob);
+    public Manager(String email,String name,String role,String password){
+        super(email,name,role,password);
     }
 
     public static final Finder<Long,Manager> find = new Finder<>(Manager.class);
