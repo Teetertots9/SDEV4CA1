@@ -53,6 +53,8 @@ create table user (
   password                      varchar(255),
   role                          varchar(255),
   department_id                 bigint,
+  aid                           bigint,
+  constraint uq_user_aid unique (aid),
   constraint pk_user primary key (email)
 );
 
@@ -73,6 +75,8 @@ create index ix_category_item_on_sale_item_on_sale on category_item_on_sale (ite
 alter table user add constraint fk_user_department_id foreign key (department_id) references department (id) on delete restrict on update restrict;
 create index ix_user_department_id on user (department_id);
 
+alter table user add constraint fk_user_aid foreign key (aid) references address (address_id) on delete restrict on update restrict;
+
 alter table user_project add constraint fk_user_project_user foreign key (user_email) references user (email) on delete restrict on update restrict;
 create index ix_user_project_user on user_project (user_email);
 
@@ -92,6 +96,8 @@ drop index if exists ix_category_item_on_sale_item_on_sale;
 
 alter table user drop constraint if exists fk_user_department_id;
 drop index if exists ix_user_department_id;
+
+alter table user drop constraint if exists fk_user_aid;
 
 alter table user_project drop constraint if exists fk_user_project_user;
 drop index if exists ix_user_project_user;

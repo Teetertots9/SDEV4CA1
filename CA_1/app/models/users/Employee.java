@@ -14,7 +14,8 @@ public class Employee extends User {
     @ManyToOne
     private Department department;
 
-    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="AID")
     private Address address;
 
     @ManyToMany(cascade=CascadeType.ALL)
