@@ -1,10 +1,23 @@
-@(employees: List[models.users.Employee],user: models.users.User)
+@(employees: List[models.users.Employee], departments: List[models.users.Department], user: models.users.User)
 @main("Employees",user){
 <h1>Current Employees</h1>
 
+<div class="col-sm-3">
+    <h4>Departments</h4>
+    <div class="list-group">
+        <a href="@routes.EmployeeController.usersEmployee(0)" class="list-group-item">All departments</a>
+        @for(d<-departments){
+            <a href="@routes.EmployeeController.usersEmployee(d.getId)" class="list-group-item catheight">@d.getName
+                <span class="badge">@d.getEmployees.size</span>
+            </a>
+        }
+    </div>
+</div>
+
 <div class="col-sm-9">
     <h4>Here are all the current customers on the system.</h4>
-    <table class="table table-bordered table-hover table-condensed">
+    <h4>Click on employee name to add/remove from projects(not working yet)</h4>
+        <table class="table table-bordered table-hover table-condensed">
         <thead>
 
             <tr>

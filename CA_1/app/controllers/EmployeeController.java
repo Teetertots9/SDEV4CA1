@@ -35,12 +35,17 @@ public class EmployeeController extends Controller{
     }
 
     //Begin Employee methods
-    public Result usersEmployee(){
+    public Result usersEmployee(Long department){
         List<Employee> userList = null;
+        List<Department> departmentList = Department.findAll();
 
-        userList = Employee.findAll();
+        if(department == 0){
+            userList = Employee.findAll();
+        }else{
+            userList = Department.find.ref(department).getEmployees();
+        }
 
-        return ok(employees.render(userList,User.getUserById(session().get("email"))));
+        return ok(employees.render(userList,departmentList,User.getUserById(session().get("email"))));
     }
 
 
@@ -72,7 +77,7 @@ public class EmployeeController extends Controller{
         emp.delete();
 
         flash("success", "Employee has been deleted.");
-        return redirect(controllers.routes.EmployeeController.usersEmployee());
+        return redirect(controllers.routes.EmployeeController.usersEmployee(0));
     }
 
     @Security.Authenticated(Secured.class)
@@ -101,7 +106,7 @@ public class EmployeeController extends Controller{
                 newUser.update();
             }
             flash("success", "Employee " + newUser.getName() + " was added/updated.");
-            return redirect(controllers.routes.EmployeeController.usersEmployee());             
+            return redirect(controllers.routes.EmployeeController.usersEmployee(0));             
         }
     }
 

@@ -36,7 +36,7 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Employee routes
-GET     /employees                  controllers.EmployeeController.usersEmployee
+GET     /employees                  controllers.EmployeeController.usersEmployee(department:Long?=0L)
 GET     /addEmployee                controllers.EmployeeController.addEmployee
 POST    /addEmployeeSubmit          controllers.EmployeeController.addEmployeeSubmit
 GET     /deleteEmployee/:id         controllers.EmployeeController.deleteEmployee(id: String)
