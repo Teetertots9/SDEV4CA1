@@ -94,6 +94,12 @@ public class EmployeeController extends Controller{
             Employee newUser = newEmployeeForm.get();
             Address address = newAddressForm.get();
             newUser.setAddress(address);
+
+            List<Project> newProjs = new ArrayList<Project>();
+        for (Long proj : newUser.getProjSelect()) {
+            newProjs.add(Project.find.byId(proj));
+        }
+        newUser.setProjects (newProjs);
     
             if(User.getUserById(newUser.getEmail())==null){
                 newUser.save();

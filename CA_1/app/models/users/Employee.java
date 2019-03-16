@@ -19,7 +19,9 @@ public class Employee extends User {
     private Address address;
 
     @ManyToMany(cascade=CascadeType.ALL)
-    private List<Project> projects = new ArrayList<>();
+    private List<Project> projects;
+
+    private List<Long> projSelect = new ArrayList<Long>();
 
     public Employee() {
     }
@@ -73,5 +75,12 @@ public class Employee extends User {
 
     public static final List<Employee> findAll() {
         return Employee.find.all();
+    }
+
+    public List<Long> getProjSelect() {
+        return projSelect;
+    }
+    public void setProjSelect(List<Long> projSelect) {
+        this.projSelect = projSelect;
     }
 }

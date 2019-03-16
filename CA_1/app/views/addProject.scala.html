@@ -1,0 +1,24 @@
+@(projectForm: Form[models.users.Project], user: models.users.User)
+@import helper._
+
+@main("Add Project",user){
+    <p class="lead">Add a new Project</p>
+
+    @form(action=routes.ProjectController.addProjectSubmit(), 'class -> "form-horizontal", 'role -> "form"){
+        @CSRF.formField
+
+        
+        @inputText(projectForm("projName"), '_label -> "Project Name", 'class -> "form-control")
+        @inputText(projectForm("projName"), '_label -> "", 'hidden -> "hidden")
+       
+        
+
+
+        <div class="actions">
+            <input type="submit" value="Add/Update Project" class="btn btn-primary">
+            <a href="@routes.ProjectController.projects()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

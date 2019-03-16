@@ -13,6 +13,9 @@ import play.data.validation.*;
 
 public class Project{
     @Id
+    private Long id;
+
+    @Constraints.Required
     String projName;
     
     @ManyToMany(cascade=CascadeType.ALL, mappedBy = "projects")
@@ -22,9 +25,18 @@ public class Project{
     public Project(){
 
     }
-    public Project(String name, List<Employee> employees){
+    public Project(Long id, String name, List<Employee> employees){
+        this.id = id;
         this.projName = name;
         this.employees = employees;
+    }
+
+    public Long getId(){
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setProjName(String name){
@@ -43,7 +55,26 @@ public class Project{
     public static final Finder<Long, Project> find = new Finder<>(Project.class);
 
     public static final List<Project> findAll() {
-        return Project.find.all();
+        return Project.find.query().where().orderBy("projName asc").all();
     }
 
+    public static Project getProjectById(Long id) {
+        if (id == null) {
+            return null;
+        } else {
+            return find.query().where().eq("id", id).findUnique();
+        }
+    }
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap();
+    for (Project p: Project.findAll()) {
+        options.put(p.getId().toString(), p.getProjName());
+     }
+     return options;
+  }
+  public static boolean inProject(Long project, Long employee) {
+     return find.query().where().eq("employees.id", employee)
+                        .eq("id", project)
+                        .findList().size() > 0;
+ }
 }

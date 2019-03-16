@@ -41,3 +41,9 @@ GET     /addEmployee                controllers.EmployeeController.addEmployee
 POST    /addEmployeeSubmit          controllers.EmployeeController.addEmployeeSubmit
 GET     /deleteEmployee/:id         controllers.EmployeeController.deleteEmployee(id: String)
 GET     /updateEmployee/:id         controllers.EmployeeController.updateEmployee(id: String)
+
+GET     /projects                   controllers.ProjectController.projects(proj:Long?=0L)
+GET     /addProject                 controllers.ProjectController.addProject
+POST    /addProjectSubmit           controllers.ProjectController.addProjectSubmit
+GET     /deleteProject/:id          controllers.ProjectController.deleteProject(id: String)
+GET     /updateProject/:id          controllers.ProjectController.updateProject(id: String)                
