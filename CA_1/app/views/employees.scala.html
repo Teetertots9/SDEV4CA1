@@ -28,7 +28,7 @@
                 <td>@e.getAddress().getStreet2</td>
                 <td>@e.getAddress().getTown</td>
                 <td>@e.getAddress().getPostCode</td>
-                <td>@e.getDepartment</td>
+                <td>@e.getDepartment().getName()</td>
 
                 <td>
                     <a href="@routes.EmployeeController.updateEmployee(e.getEmail)" class="button-xs btn-danger">
