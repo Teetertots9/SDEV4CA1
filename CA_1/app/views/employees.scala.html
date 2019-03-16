@@ -23,7 +23,7 @@
 
             @for(e<-employees) { <tr>
                 <td>@e.getEmail</td>
-                <td>@e.getName</td>
+                <td><a href="@routes.EmployeeController.updateEmployee(e.getEmail)">@e.getName</a></td>
                 <td>@e.getAddress().getStreet1</td>
                 <td>@e.getAddress().getStreet2</td>
                 <td>@e.getAddress().getTown</td>
