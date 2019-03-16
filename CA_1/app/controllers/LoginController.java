@@ -55,43 +55,6 @@ public Result logout() {
     return redirect(routes.LoginController.login());
 }
 
-public Result registerUser() {
-    Form<UserPassword2> userForm = formFactory.form(UserPassword2.class);
-    return ok(registerUser.render(userForm,User.getUserById(session().get("email"))));
-}
-
-public Result registerUserSubmit() {
-
-    Form<User> newUserForm = formFactory.form(User.class).bindFromRequest();
-    Form<UserPassword2> newUserForm2 = formFactory.form(UserPassword2.class).bindFromRequest();
-
-    if (newUserForm.hasErrors()) {
-
-        return badRequest(registerUser.render(newUserForm2,User.getUserById(session().get("email"))));
-    } else {
-
-        User  newUser = newUserForm.get();
-        UserPassword2 newUser2 = newUserForm2.get();
-
-
-        if(!newUser2.getPassword2().equals(newUser2.getPassword())){
-            flash("error", "Passwords must match "); 
-           
-            return badRequest(registerUser.render(newUserForm2,User.getUserById(session().get("email"))));
-            
-        } 
-    
-        if(User.getUserById(newUser.getEmail())==null){
-            newUser.save();
-        }else{
-            newUser.update();
-        }
-
-    flash("success", "User " + newUser.getName() + " was registered.");
-
-    return redirect(controllers.routes.LoginController.login()); 
-    }
-}
 
 
 

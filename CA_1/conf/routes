@@ -6,7 +6,6 @@
 GET     /                           controllers.HomeController.index
 
 GET     /onsale                     controllers.HomeController.onsale(cat:Long?=0L)
-GET     /about                      controllers.HomeController.about
 
 
 GET     /addItem                    controllers.HomeController.addItem
@@ -17,8 +16,6 @@ POST    /addItemSubmit              controllers.HomeController.addItemSubmit
 
 
 
-GET     /registerUser               controllers.LoginController.registerUser
-POST    /registerUserSubmit         controllers.LoginController.registerUserSubmit()
 
 
 
