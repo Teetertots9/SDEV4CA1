@@ -24,10 +24,10 @@
 		<ul class="nav navbar-nav">
             <li @if(pagename == "Home") {class="active"}><a href="@routes.HomeController.index()">Home</a></li>
 		    <li @if(pagename == "On Sale") {class="active"}><a href="@routes.HomeController.onsale()">On Sale</a></li>
-			<li @if(pagename == "About") {class="active"}><a href="@routes.HomeController.about()">About us</a></li>
+			
 			@if((user != null) && ("manager".equals(user.getRole()))) {
 				<li @if(pagename == "Employees") {class="active"}><a href="@routes.EmployeeController.usersEmployee()">View Employees</a></li>
-
+				
 			}
 			
 			
@@ -37,9 +37,7 @@
 				} else {
 					<a href="@routes.LoginController.login()">Log In</a>
 			</li>
-			@if(user == null) {
-				<li @if(pagename == "Register") {class="active"}><a href="@routes.LoginController.registerUser()">Register user</a></li>
-			}
+			
 } 
 		</ul>
 	    </div>
@@ -50,9 +48,8 @@
 		<div class="col-sm-2">
 		    <div class="well sidecol">
 			<h2>News</h2>
-			<h3>New product sub-category</h3>
-			<p>Following the sudden and unprecedented volumes of trade in fashion paper bags, our <span class="redtext">bags</span> category has been extended to include a seventh subcategory, <span class="redtext">paper handbags</span>.
-		    </div>
+			<h3>Employees love when you give them extra work</h3>
+			<p>New scientific findings suggest employes just aren't happy unless they are <span class="redtext">drowning</span> in dozens of projects.</div>
 		</div>
 		<div class="col-sm-8">
 		    <div class="midcol">
@@ -62,8 +59,8 @@
 		<div class="col-sm-2">
 		    <div class="well sidecol">
 			<h2>Events</h2>
-			<h3>The 153rd Meet for Real event</h3>
-			<p>The popular <span class="redtext">Meet for Real</span> event takes place this Sunday at the Square Park, from 7am until 1pm. It will yet again give flea-market enthusiasts a chance to engage in a bit of live bartering and banter with their fellow sitesters.</p>
+			<h3>Our Latest Exclusive 'encouragement' seminar is coming up soon</h3>
+			<p>The popular <span class="redtext">encouragement</span> event takes place this Sunday at the Square Park, from 7am until 1pm. We will teach you how to get your employees making money for you rather than being unproductive and wasting time at home with their family.</p>
 		    </div>
 		</div>
 	    </div>

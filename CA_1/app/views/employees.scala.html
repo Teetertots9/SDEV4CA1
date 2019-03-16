@@ -1,10 +1,23 @@
-@(employees: List[models.users.Employee],user: models.users.User)
+@(employees: List[models.users.Employee], departments: List[models.users.Department], user: models.users.User)
 @main("Employees",user){
 <h1>Current Employees</h1>
 
+<div class="col-sm-3">
+    <h4>Departments</h4>
+    <div class="list-group">
+        <a href="@routes.EmployeeController.usersEmployee(0)" class="list-group-item">All departments</a>
+        @for(d<-departments){
+            <a href="@routes.EmployeeController.usersEmployee(d.getId)" class="list-group-item catheight">@d.getName
+                <span class="badge">@d.getEmployees.size</span>
+            </a>
+        }
+    </div>
+</div>
+
 <div class="col-sm-9">
     <h4>Here are all the current customers on the system.</h4>
-    <table class="table table-bordered table-hover table-condensed">
+    <h4>Click on employee name to add/remove from projects(not working yet)</h4>
+        <table class="table table-bordered table-hover table-condensed">
         <thead>
 
             <tr>
@@ -15,6 +28,8 @@
                 <th>Town</th>
                 <th>Postcode</th>
                 <th>Department</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -23,12 +38,12 @@
 
             @for(e<-employees) { <tr>
                 <td>@e.getEmail</td>
-                <td>@e.getName</td>
+                <td><a href="@routes.EmployeeController.updateEmployee(e.getEmail)">@e.getName</a></td>
                 <td>@e.getAddress().getStreet1</td>
                 <td>@e.getAddress().getStreet2</td>
                 <td>@e.getAddress().getTown</td>
                 <td>@e.getAddress().getPostCode</td>
-                <td>@e.getDepartment</td>
+                <td>@e.getDepartment().getName()</td>
 
                 <td>
                     <a href="@routes.EmployeeController.updateEmployee(e.getEmail)" class="button-xs btn-danger">
