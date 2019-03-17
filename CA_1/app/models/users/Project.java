@@ -72,9 +72,9 @@ public class Project extends Model{
      }
      return options;
   }
-  public static boolean inProject(String project, String employee) {
+  public static boolean inProject(Long project, String employee) {
      return find.query().where().eq("employees.email", employee)
-                        .eq("projName", project)
+                        .eq("id", project)
                         .findList().size() > 0;
  }
 }

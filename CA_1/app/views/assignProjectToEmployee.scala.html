@@ -1,4 +1,4 @@
-@(employeeForm: Form[models.users.Employee],user: models.users.User)
+@(emp: models.users.Employee, employeeForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
 
 
 @import helper._
@@ -11,19 +11,29 @@
         @* This token, sent by the controller, will be used to authenticate the form submission *@
         @CSRF.formField
 
-        @inputText(employeeForm("name"), '_label -> "Name", 'class -> "form-control")
+        <p>Employee: @emp.getName</p>>
 
         <p><strong>Projects</strong></p>
         @for((value, name) <- users.Project.options) {
             <input type="checkbox" name="projSelect[]" value="@value"  
                 @if(employeeForm("email").getValue.isPresent && employeeForm("email").getValue.get != "") { 
-                    @if(users.Project.inProject(value, employeeForm("email").getValue.get)) {
+                    @if(users.Project.inProject(value.toLong, employeeForm("email").getValue.get.toString)) {
                         checked
                     }
                 } 
             /> @name </br>
         }
         </p>
+
+
+        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("password"), '_label -> "", 'hidden -> "hidden")
+        @inputText(addressForm("street1"), '_label -> "", 'hidden -> "hidden")
+        @inputText(addressForm("street2"), '_label -> "", 'hidden -> "hidden")
+        @inputText(addressForm("town"), '_label -> "", 'hidden -> "hidden")
+        @inputText(addressForm("postCode"), '_label -> "", 'hidden -> "hidden")
 
         <div class="actions">
             <input type="submit" value="Assign" class="btn btn-primary">
