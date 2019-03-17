@@ -1,0 +1,35 @@
+@(employeeForm: Form[models.users.Employee],user: models.users.User)
+
+
+@import helper._
+
+@main("Assign Project",user){
+    <p class="lead">Assign A project to this employee</p>
+
+    @form(action=routes.EmployeeController.assignProjectToEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+
+        @inputText(employeeForm("name"), '_label -> "Name", 'class -> "form-control")
+
+        <p><strong>Projects</strong></p>
+        @for((value, name) <- users.Project.options) {
+            <input type="checkbox" name="projSelect[]" value="@value"  
+                @if(employeeForm("email").getValue.isPresent && employeeForm("email").getValue.get != "") { 
+                    @if(users.Project.inProject(value, employeeForm("email").getValue.get)) {
+                        checked
+                    }
+                } 
+            /> @name </br>
+        }
+        </p>
+
+        <div class="actions">
+            <input type="submit" value="Assign" class="btn btn-primary">
+            <a href="@routes.EmployeeController.usersEmployee()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

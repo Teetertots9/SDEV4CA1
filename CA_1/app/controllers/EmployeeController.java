@@ -69,6 +69,52 @@ public class EmployeeController extends Controller{
     }
 
     @Security.Authenticated(Secured.class)
+    public Result assignProjectToEmployee(String email) {
+        Employee emp;
+        Form<Employee> employeeForm;
+
+
+        try {
+            emp = (Employee) User.getUserById(email);
+            emp.update();
+
+            employeeForm = formFactory.form(Employee.class).fill(emp);
+        } catch (Exception ex) {
+            return badRequest("error");
+        }
+
+        return ok(assignProjectToEmployee.render(employeeForm,User.getUserById(session().get("email"))));
+    }
+
+    @Security.Authenticated(Secured.class)
+    @With(AuthManager.class)
+    @Transactional
+    public Result assignProjectToEmployeeSubmit(){
+        Form<Employee> assignEmployeeForm = formFactory.form(Employee.class).bindFromRequest();
+        if (assignEmployeeForm.hasErrors()) {
+            return badRequest(assignProjectToEmployee.render(assignEmployeeForm,User.getUserById(session().get("email"))));
+        } else {
+            Employee emp = assignEmployeeForm.get();
+
+            List<Project> newProjs = new ArrayList<Project>();
+        for (Long proj : emp.getProjSelect()) {
+            newProjs.add(Project.find.byId(proj));
+        }
+        emp.setProjects (newProjs);
+    
+            if(User.getUserById(emp.getEmail())==null){
+                emp.save();
+            }else{
+                emp.update();
+            }
+            flash("success", "Employee " + emp.getName() + " was added/updated.");
+            return redirect(controllers.routes.EmployeeController.usersEmployee(0));             
+        }
+    }
+
+
+
+    @Security.Authenticated(Secured.class)
     @Transactional
     @With(AuthManager.class)
     public Result deleteEmployee(String email) {
