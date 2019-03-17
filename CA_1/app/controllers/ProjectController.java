@@ -51,7 +51,7 @@ public class ProjectController extends Controller{
 
 
     @Security.Authenticated(Secured.class)
-    public Result updateProject(String email) {
+    public Result updateProject(Long id) {
         Project project;
         Form<Project> projectForm;
 
@@ -71,7 +71,7 @@ public class ProjectController extends Controller{
     @Security.Authenticated(Secured.class)
     @Transactional
     @With(AuthManager.class)
-    public Result deleteProject(String projName) {
+    public Result deleteProject(Long id) {
 
         Project proj = Project.getProjectById(id);
         proj.delete();
@@ -100,12 +100,12 @@ public class ProjectController extends Controller{
             
             
     
-            if(Project.getProjectById(newUser.getProjName())==null){
+            if(Project.getProjectById(newProject.getId())==null){
                 newProject.save();
             }else{
                 newProject.update();
             }
-            flash("success", "Employee " + newUser.getName() + " was added/updated.");
+            flash("success", "Project " + newProject.getProjName() + " was added/updated.");
             return redirect(controllers.routes.ProjectController.projects(0));             
         }
     }

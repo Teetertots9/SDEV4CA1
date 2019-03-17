@@ -21,11 +21,6 @@
                 <tr>
                     <th>Email</th>
                     <th>Name</th>
-                    <th>Street 1</th>
-                    <th>Street 2</th>
-                    <th>Town</th>
-                    <th>Postcode</th>
-                    <th>Department</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,12 +30,6 @@
                 @for(e<-employees) { <tr>
                     <td>@e.getEmail</td>
                     <td>@e.getName</td>
-                    <td>@e.getAddress().getStreet1</td>
-                    <td>@e.getAddress().getStreet2</td>
-                    <td>@e.getAddress().getTown</td>
-                    <td>@e.getAddress().getPostCode</td>
-                    <td>@e.getDepartment</td>
-    
                     <td>
                         <a href="@routes.EmployeeController.updateEmployee(e.getEmail)" class="button-xs btn-danger">
                             <span class="glyphicon glyphicon-pencil"></span>

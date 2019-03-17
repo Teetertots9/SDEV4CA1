@@ -42,8 +42,9 @@ create table item_on_sale (
 );
 
 create table project (
-  proj_name                     varchar(255) not null,
-  constraint pk_project primary key (proj_name)
+  id                            bigint auto_increment not null,
+  proj_name                     varchar(255),
+  constraint pk_project primary key (id)
 );
 
 create table user (
@@ -60,8 +61,8 @@ create table user (
 
 create table user_project (
   user_email                    varchar(255) not null,
-  project_proj_name             varchar(255) not null,
-  constraint pk_user_project primary key (user_email,project_proj_name)
+  project_id                    bigint not null,
+  constraint pk_user_project primary key (user_email,project_id)
 );
 
 alter table address add constraint fk_address_employee_email foreign key (employee_email) references user (email) on delete restrict on update restrict;
@@ -80,8 +81,8 @@ alter table user add constraint fk_user_aid foreign key (aid) references address
 alter table user_project add constraint fk_user_project_user foreign key (user_email) references user (email) on delete restrict on update restrict;
 create index ix_user_project_user on user_project (user_email);
 
-alter table user_project add constraint fk_user_project_project foreign key (project_proj_name) references project (proj_name) on delete restrict on update restrict;
-create index ix_user_project_project on user_project (project_proj_name);
+alter table user_project add constraint fk_user_project_project foreign key (project_id) references project (id) on delete restrict on update restrict;
+create index ix_user_project_project on user_project (project_id);
 
 
 # --- !Downs

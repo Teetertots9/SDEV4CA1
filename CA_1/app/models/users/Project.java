@@ -11,7 +11,7 @@ import play.data.validation.*;
 @Table(name = "project")
 @Entity
 
-public class Project{
+public class Project extends Model{
     @Id
     private Long id;
 
@@ -55,7 +55,7 @@ public class Project{
     public static final Finder<Long, Project> find = new Finder<>(Project.class);
 
     public static final List<Project> findAll() {
-        return Project.find.query().where().orderBy("projName asc").all();
+        return find.all();
     }
 
     public static Project getProjectById(Long id) {
