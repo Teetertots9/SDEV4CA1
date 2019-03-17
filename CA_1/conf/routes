@@ -40,7 +40,7 @@ GET     /deleteEmployee/:id         controllers.EmployeeController.deleteEmploye
 GET     /updateEmployee/:id         controllers.EmployeeController.updateEmployee(id: String)
 GET     /assignProjectToEmployee/:id    controllers.EmployeeController.assignProjectToEmployee(id: String)
 POST    /assignProjectToEmployeeSubmit  controllers.EmployeeController.assignProjectToEmployeeSubmit
-
+GET     /profile                    controllers.EmployeeController.profile
 GET     /projects                   controllers.ProjectController.projects(proj:Long?=0L)
 GET     /addProject                 controllers.ProjectController.addProject
 POST    /addProjectSubmit           controllers.ProjectController.addProjectSubmit

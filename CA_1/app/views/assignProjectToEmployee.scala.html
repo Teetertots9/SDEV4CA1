@@ -11,7 +11,7 @@
         @* This token, sent by the controller, will be used to authenticate the form submission *@
         @CSRF.formField
 
-        <p>Employee: @emp.getName</p>>
+        <p>Employee: @emp.getName</p>
 
         <p><strong>Projects</strong></p>
         @for((value, name) <- users.Project.options) {
@@ -24,8 +24,7 @@
             /> @name </br>
         }
         </p>
-
-
+        @*This needs to be changed so the display looks better*@
         @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
         @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden")
         @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")

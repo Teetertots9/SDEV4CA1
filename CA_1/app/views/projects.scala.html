@@ -10,11 +10,22 @@
                 <a href = "@routes.ProjectController.projects(p.getId())" class="list-group-item catheight">@p.getProjName
                     <span class="badge">@p.getEmployees.size</span> 
                 </a>
+                
+                
+                <a href="@routes.ProjectController.deleteProject(p.getId)" class="button-xs btn-danger"
+                        onclick="return confirmDel();">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
             }
         </ul>
+        <p>
+            <a href="@routes.ProjectController.addProject()">
+                <button class="btn btn-primary">Add a new Project</button>
+            </a>
+        </p>
 </div>
     <div class="col-sm-9">
-        <h4>Here are all the current customers on the system.</h4>
+        <h4>Here are all the current Employess and the projects they are assigned to.</h4>
         <table class="table table-bordered table-hover table-condensed">
             <thead>
     
@@ -30,26 +41,10 @@
                 @for(e<-employees) { <tr>
                     <td>@e.getEmail</td>
                     <td>@e.getName</td>
-                    <td>
-                        <a href="@routes.EmployeeController.updateEmployee(e.getEmail)" class="button-xs btn-danger">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
-    
-                    <td>
-                        <a href="@routes.EmployeeController.deleteEmployee(e.getEmail)" class="button-xs btn-danger"
-                            onclick="return confirmDel();">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
-                    </td>
                     </tr>
                     }
             </tbody>
         </table>
-    <p>
-        <a href="@routes.ProjectController.addProject()">
-            <button class="btn btn-primary">Add a new Project</button>
-        </a>
-    </p>
+    
 </div>
 }

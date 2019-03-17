@@ -1,0 +1,14 @@
+@(user: models.users.User)
+@main("Profile",user){
+    <div class="row">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-9">
+            <h3>Name: @user.getName()</h3>
+            <h3>Email: @user.getEmail()</h3>
+            
+
+        </div>
+</div>
+}

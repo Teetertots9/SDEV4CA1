@@ -48,6 +48,11 @@ public class EmployeeController extends Controller{
         return ok(employees.render(userList,departmentList,User.getUserById(session().get("email"))));
     }
 
+    public Result profile(){
+    
+
+        return ok(profile.render(User.getUserById(session().get("email"))));
+    }
 
     @Security.Authenticated(Secured.class)
     public Result updateEmployee(String email) {
