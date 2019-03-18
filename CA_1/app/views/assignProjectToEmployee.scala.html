@@ -25,10 +25,10 @@
         }
         </p>
         @*This needs to be changed so the display looks better*@
-        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
-        @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden")
-        @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
-        @inputText(employeeForm("password"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
+        @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
+        @inputText(employeeForm("role"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("password"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
 
         <div class="actions">
             <input type="submit" value="Assign" class="btn btn-primary">

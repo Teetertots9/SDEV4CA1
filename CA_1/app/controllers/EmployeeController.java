@@ -98,6 +98,15 @@ public class EmployeeController extends Controller{
     public Result assignProjectToEmployeeSubmit(){
         Form<Employee> assignEmployeeForm = formFactory.form(Employee.class).bindFromRequest();
         Employee emp = assignEmployeeForm.get();
+
+        //Also not working, more null pointer exception. Can't think of any more ways to just use the ID from the form and get all the other data from the database or models.
+        //I even tried passing an employee into this method but got an error there too on the form view page.
+
+        //Employee emp = (Employee) User.getUserById(assignEmployeeForm.get().getEmail());
+
+        //Doesn't work at all, no idea how to fix it, constant null pointer excetpion no matter what I try. So stuck with terrible looking form for now.
+ //       Employee empTemp = assignEmployeeForm.get();
+  //      Employee emp = (Employee) User.getUserById(empTemp.getEmail())    //Looks like a mess but just might work. Trying to only pull the ID out of the form and using that to populate the Employee object
         if (assignEmployeeForm.hasErrors()) {
             return badRequest(assignProjectToEmployee.render(emp,assignEmployeeForm,User.getUserById(session().get("email"))));
         } else {
