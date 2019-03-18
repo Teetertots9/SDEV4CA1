@@ -7,9 +7,11 @@
     @form(action=routes.ProjectController.addProjectSubmit(), 'class -> "form-horizontal", 'role -> "form"){
         @CSRF.formField
 
-        
+        <div class="row">
+            <div class="form-group">
         @inputText(projectForm("projName"), '_label -> "Project Name", 'class -> "form-control")
-       
+       </div>
+    </div>
         
 
 
