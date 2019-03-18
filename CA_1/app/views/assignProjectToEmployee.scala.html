@@ -1,4 +1,4 @@
-@(emp: models.users.Employee, employeeForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
+@(emp: models.users.Employee, employeeForm: Form[models.users.Employee], user: models.users.User)
 
 
 @import helper._
@@ -29,10 +29,6 @@
         @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden")
         @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
         @inputText(employeeForm("password"), '_label -> "", 'hidden -> "hidden")
-        @inputText(addressForm("street1"), '_label -> "", 'hidden -> "hidden")
-        @inputText(addressForm("street2"), '_label -> "", 'hidden -> "hidden")
-        @inputText(addressForm("town"), '_label -> "", 'hidden -> "hidden")
-        @inputText(addressForm("postCode"), '_label -> "", 'hidden -> "hidden")
 
         <div class="actions">
             <input type="submit" value="Assign" class="btn btn-primary">

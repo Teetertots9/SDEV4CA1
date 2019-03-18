@@ -77,7 +77,6 @@ public class EmployeeController extends Controller{
     public Result assignProjectToEmployee(String email) {
         Employee emp;
         Form<Employee> employeeForm;
-        Form<Address> addressForm;
         
 
         try {
@@ -85,13 +84,12 @@ public class EmployeeController extends Controller{
             emp.update();
 
             employeeForm = formFactory.form(Employee.class).fill(emp);
-            addressForm = formFactory.form(Address.class).fill(emp.getAddress());
             
         } catch (Exception ex) {
             return badRequest("error");
         }
 
-        return ok(assignProjectToEmployee.render(emp,employeeForm,addressForm,User.getUserById(session().get("email"))));
+        return ok(assignProjectToEmployee.render(emp,employeeForm,User.getUserById(session().get("email"))));
     }
 
     @Security.Authenticated(Secured.class)
@@ -99,14 +97,11 @@ public class EmployeeController extends Controller{
     @Transactional
     public Result assignProjectToEmployeeSubmit(){
         Form<Employee> assignEmployeeForm = formFactory.form(Employee.class).bindFromRequest();
-        Form<Address> addressForm = formFactory.form(Address.class).bindFromRequest();
         Employee emp = assignEmployeeForm.get();
         if (assignEmployeeForm.hasErrors()) {
-            return badRequest(assignProjectToEmployee.render(emp,assignEmployeeForm,addressForm,User.getUserById(session().get("email"))));
+            return badRequest(assignProjectToEmployee.render(emp,assignEmployeeForm,User.getUserById(session().get("email"))));
         } else {
             
-            Address address = addressForm.get();
-            emp.setAddress(address);
 
             List<Project> newProjs = new ArrayList<Project>();
         for (Long proj : emp.getProjSelect()) {
