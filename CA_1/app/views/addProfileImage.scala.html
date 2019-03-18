@@ -1,0 +1,26 @@
+@(employeeForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
+@import helper._
+
+@main("ProfileUpload",user){
+    <p class="lead">Add a profile pictire</p>
+
+    @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
+    'method -> "POST", 'enctype -> "multipart/form-data"){
+        @CSRF.formField
+
+        <label>Image Upload</label>
+        <input class="btn-sm btn-default" type="file" name="upload">     
+
+        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
+        @inputText(employeeForm("name"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
+        @inputText(employeeForm("role"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("password"), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
+
+        <div class="actions">
+            <input type="submit" value="Add/Update Employee" class="btn btn-primary">
+            <a href="@routes.EmployeeController.profile()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

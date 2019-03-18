@@ -51,7 +51,7 @@ public class EmployeeController extends Controller{
     public Result profile(){
     
 
-        return ok(profile.render(User.getUserById(session().get("email"))));
+        return ok(profile.render(User.getUserById(session().get("email")),e));
     }
 
     @Security.Authenticated(Secured.class)
@@ -150,7 +150,6 @@ public class EmployeeController extends Controller{
     }
 
     @Security.Authenticated(Secured.class)
-    @With(AuthManager.class)
     @Transactional
     public Result addEmployeeSubmit(){
         Form<Employee> newEmployeeForm = formFactory.form(Employee.class).bindFromRequest();
@@ -173,10 +172,78 @@ public class EmployeeController extends Controller{
             }else{
                 newUser.update();
             }
+
+            MultipartFormData<File> data = request().body().asMultipartFormData();
+       
+        FilePart<File> image = data.getFile("upload");
+    
+        String saveUserMessage = saveFileP(newUser.getEmail(), image);
             flash("success", "Employee " + newUser.getName() + " was added/updated.");
-            return redirect(controllers.routes.EmployeeController.usersEmployee(0));             
+            return redirect(controllers.routes.HomeController.index());             
         }
     }
 
+    public Result addProfileImage(String email){
+        Employee emp;
+        Form<Employee> employeeForm;
+        Form<Address> addressForm;
+
+        try {
+            emp = (Employee) User.getUserById(email);
+            emp.update();
+
+            employeeForm = formFactory.form(Employee.class).fill(emp);
+            addressForm = formFactory.form(Address.class).fill(emp.getAddress());
+            
+        } catch (Exception ex) {
+            return badRequest("error");
+        }
+
+        return ok(addProfileImage.render(employeeForm,addressForm, User.getUserById(session().get("email"))));
+    }
+    public String saveFileP(String id, FilePart<File> uploaded) {
+        
+        if (uploaded != null) {
+            
+            String mimeType = uploaded.getContentType();
+            if (mimeType.startsWith("image/")) {
+                
+                String fileName = uploaded.getFilename();
+                
+                String extension = "";
+                int i = fileName.lastIndexOf('.');
+                if (i >= 0) {
+                    extension = fileName.substring(i + 1);
+                }
+                
+                File file = uploaded.getFile();
+                
+                File dir = new File("public/images/profileImages");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // 3) Actually save the file.
+                File newFile = new File("public/images/profileImages/", id + "." + extension);
+                if (file.renameTo(newFile)) {
+                    try {
+                        BufferedImage img = ImageIO.read(newFile); 
+                        BufferedImage scaledImg = Scalr.resize(img, 300);
+                        
+                        if (ImageIO.write(scaledImg, extension, new File("public/images/profileImages/", id + "profile.jpg"))) {
+                            return "/ file uploaded and Profile created.";
+                        } else {
+                            return "/ file uploaded but profile creation failed.";
+                        }
+                    } catch (IOException e) {
+                        return "/ file uploaded but profile creation failed.";
+                    }
+                } else {
+                    return "/ file upload failed.";
+                }
+    
+            }
+        }
+        return "/ no image file.";
+    }
     //END Employee Methods
 }

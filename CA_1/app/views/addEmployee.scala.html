@@ -4,9 +4,16 @@
 @main("Add Employee",user){
     <p class="lead">Add a new Employee</p>
 
-    @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form"){
+    @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
+    'method -> "POST", 'enctype -> "multipart/form-data"){
         @CSRF.formField
 
+        @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
+        'method -> "POST", 'enctype -> "multipart/form-data"){
+        @CSRF.formField
+
+        <label>Image Upload</label>
+        <input class="btn-sm btn-default" type="file" name="upload"> 
         @select(
             employeeForm("department.id"),
                 options(users.Department.options),
@@ -48,4 +55,5 @@
             </a>
         </div>
     }
+}
 }
