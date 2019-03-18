@@ -7,35 +7,71 @@
     @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
     'method -> "POST", 'enctype -> "multipart/form-data"){
         @CSRF.formField
-
+    
         @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
         'method -> "POST", 'enctype -> "multipart/form-data"){
         @CSRF.formField
-
+        <div class="row">
+                <div class="form-group">
         <label>Image Upload</label>
         <input class="btn-sm btn-default" type="file" name="upload"> 
+        </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
         @select(
             employeeForm("department.id"),
                 options(users.Department.options),
                 '_label -> "Department", '_default -> "-- Choose a department --", 
                 '_showConstraints -> false, 'class -> "form-control"
             )
-
+</div>
+</div>
             
         
 
-
+    <div class="row">
+        <div class="form-group">
         @inputText(employeeForm("email"), '_label -> "Email", 'class -> "form-control")
-        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
+        
+        </div>
+    </div>
+    @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
+    <div class="row">
+        <div class="form-group">
         @inputText(employeeForm("name"), '_label -> "Name", 'class -> "form-control")
-        @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
+        
+       </div>
+    </div>
+    @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
+    <div class="row">
+        <div class="form-group">
         @inputText(employeeForm("password"), '_label -> "Password", 'class -> "form-control")
+        </div>
+    </div><div class="row">
+            <div class="form-group">
         @inputText(addressForm("street1"), '_label -> "Address 1:", 'class -> "form-control")
+        </div>
+        </div>
+    <div class="row">
+        <div class="form-group">
         @inputText(addressForm("street2"), '_label -> "Address 2:", 'class -> "form-control")
+        </div>
+    </div>
+    <div class="row">
+            <div class="form-group">
         @inputText(addressForm("town"), '_label -> "Town", 'class -> "form-control")
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
         @inputText(addressForm("postCode"), '_label -> "Post Code", 'class -> "form-control")
+        </div>
+    </div>
 
         <p><strong>Projects</strong></p>
+        <div class="row">
+            <div class="form-group">
         @for((value, name) <- users.Project.options) {
             <input type="checkbox" name="projSelect[]" value="@value"  
                 @if(employeeForm("email").getValue.isPresent && employeeForm("email").getValue.get != "") { 
@@ -45,6 +81,8 @@
                 } 
             /> @name </br>
         }
+    </div>
+    </div>
         </p>
 
 

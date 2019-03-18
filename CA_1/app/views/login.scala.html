@@ -20,17 +20,22 @@
 
     @helper.form(action = controllers.routes.LoginController.loginSubmit()) {
         @CSRF.formField
-
+<div class="row">
         <div class="form-group">
             @inputText(loginForm("email"), '_label -> "",
             'class -> "form-control input-xs", 'placeholder -> "Email")
         </div>
+    </div>
+    <div class="row">
         <div class="form-group">
             @inputPassword(loginForm("password"), '_label -> "",
             'class -> "form-control input-xs", 'placeholder -> "Password")
         </div>
+    </div>
+    <div class="row">
         <div class="form-group">
             <input type="submit" value="Sign In" class="btn btn-primary">
         </div>
+    </div>
     }
 }
