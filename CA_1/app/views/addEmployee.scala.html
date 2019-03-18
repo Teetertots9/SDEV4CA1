@@ -1,4 +1,4 @@
-@(userForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
+@(employeeForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
 @import helper._
 
 @main("Add Employee",user){
@@ -8,7 +8,7 @@
         @CSRF.formField
 
         @select(
-                userForm("department.id"),
+            employeeForm("department.id"),
                 options(users.Department.options),
                 '_label -> "Department", '_default -> "-- Choose a department --", 
                 '_showConstraints -> false, 'class -> "form-control"
@@ -18,15 +18,27 @@
         
 
 
-        @inputText(userForm("email"), '_label -> "Email", 'class -> "form-control")
-        @inputText(userForm("email"), '_label -> "", 'hidden -> "hidden")
-        @inputText(userForm("name"), '_label -> "Name", 'class -> "form-control")
-        @inputText(userForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
-        @inputText(userForm("password"), '_label -> "Password", 'class -> "form-control")
+        @inputText(employeeForm("email"), '_label -> "Email", 'class -> "form-control")
+        @inputText(employeeForm("email"), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("name"), '_label -> "Name", 'class -> "form-control")
+        @inputText(employeeForm("role").copy(value=Some("employee")), '_label -> "", 'hidden -> "hidden")
+        @inputText(employeeForm("password"), '_label -> "Password", 'class -> "form-control")
         @inputText(addressForm("street1"), '_label -> "Address 1:", 'class -> "form-control")
         @inputText(addressForm("street2"), '_label -> "Address 2:", 'class -> "form-control")
         @inputText(addressForm("town"), '_label -> "Town", 'class -> "form-control")
         @inputText(addressForm("postCode"), '_label -> "Post Code", 'class -> "form-control")
+
+        <p><strong>Projects</strong></p>
+        @for((value, name) <- users.Project.options) {
+            <input type="checkbox" name="projSelect[]" value="@value"  
+                @if(employeeForm("email").getValue.isPresent && employeeForm("email").getValue.get != "") { 
+                    @if(users.Project.inProject(value.toLong, employeeForm("email").getValue.get.toString)) {
+                        checked
+                    }
+                } 
+            /> @name </br>
+        }
+        </p>
 
 
         <div class="actions">

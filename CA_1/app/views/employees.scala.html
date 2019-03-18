@@ -15,8 +15,8 @@
 </div>
 
 <div class="col-sm-9">
-    <h4>Here are all the current customers on the system.</h4>
-    <h4>Click on employee name to add/remove from projects(not working yet)</h4>
+    <h4>Here are all the current employees on the system.</h4>
+    <h4>Click on employee name to add/remove from projects</h4>
         <table class="table table-bordered table-hover table-condensed">
         <thead>
 
@@ -30,7 +30,7 @@
                 <th>Department</th>
                 <th>Edit</th>
                 <th>Delete</th>
-                <th>Assign Project</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -58,13 +58,8 @@
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>
-                <td>
-                        <a href="@routes.EmployeeController.assignProjectToEmployee(e.getEmail)" class="button-xs btn-danger">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
                 </tr>
-                }
+            }
         </tbody>
     </table>
 
