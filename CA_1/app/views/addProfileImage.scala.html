@@ -1,10 +1,10 @@
-@(employeeForm: Form[models.users.Employee], addressForm: Form[models.users.Address], user: models.users.User)
+@(employeeForm: Form[models.users.Employee], user: models.users.User)
 @import helper._
 
 @main("ProfileUpload",user){
     <p class="lead">Add a profile pictire</p>
 
-    @form(action=routes.EmployeeController.addEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form",
+    @form(action=routes.EmployeeController.addEmployeePictureSubmit(), 'class -> "form-horizontal", 'role -> "form",
     'method -> "POST", 'enctype -> "multipart/form-data"){
         @CSRF.formField
 

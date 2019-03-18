@@ -42,6 +42,7 @@ GET     /assignProjectToEmployee/:id    controllers.EmployeeController.assignPro
 POST    /assignProjectToEmployeeSubmit  controllers.EmployeeController.assignProjectToEmployeeSubmit
 GET     /profile                    controllers.EmployeeController.profile
 GET     /addProfileImage            controllers.EmployeeController.addProfileImage(id: String)
+POST    /addEmployeePictureSubmit   controllers.EmployeeController.addEmployeePictureSubmit
 GET     /projects                   controllers.ProjectController.projects(proj:Long?=0L)
 GET     /addProject                 controllers.ProjectController.addProject
 POST    /addProjectSubmit           controllers.ProjectController.addProjectSubmit

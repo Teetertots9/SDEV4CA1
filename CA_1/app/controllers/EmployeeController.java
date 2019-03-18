@@ -184,23 +184,48 @@ public class EmployeeController extends Controller{
         }
     }
 
+    @Security.Authenticated(Secured.class)
+    @Transactional
+    public Result addEmployeePictureSubmit(){
+        Form<Employee> employeePictureForm = formFactory.form(Employee.class).bindFromRequest();
+        Employee emp = employeePictureForm.get();
+
+        if (employeePictureForm.hasErrors()) {
+            return badRequest(addProfileImage.render(employeePictureForm,User.getUserById(session().get("email"))));
+        } else {
+            
+
+        
+    
+            if(User.getUserById(emp.getEmail())==null){
+                emp.save();
+            }else{
+                emp.update();
+            }
+            MultipartFormData<File> data = request().body().asMultipartFormData();
+       
+            FilePart<File> image = data.getFile("upload");
+    
+            String saveUserMessage = saveFileP(emp.getEmail(), image);
+
+            flash("success", "Employee " + emp.getName() + " was added/updated.");
+            return redirect(controllers.routes.EmployeeController.profile());             
+        }
+    }
+
     public Result addProfileImage(String email){
         Employee emp;
         Form<Employee> employeeForm;
-        Form<Address> addressForm;
-
         try {
             emp = (Employee) User.getUserById(email);
             emp.update();
 
-            employeeForm = formFactory.form(Employee.class).fill(emp);
-            addressForm = formFactory.form(Address.class).fill(emp.getAddress());
-            
+            employeeForm = formFactory.form(Employee.class).fill(emp);            
         } catch (Exception ex) {
             return badRequest("error");
         }
 
-        return ok(addProfileImage.render(employeeForm,addressForm, User.getUserById(session().get("email"))));
+        return ok(addProfileImage.render(employeeForm, User.getUserById(session().get("email"))));
     }
     public String saveFileP(String id, FilePart<File> uploaded) {
         
