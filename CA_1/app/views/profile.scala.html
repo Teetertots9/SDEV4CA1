@@ -7,33 +7,39 @@
                     <img src="/assets/images/profileImages/@(user.getEmail + "profile.jpg")"/>
                 } else {
                     <img src="/assets/images/profileImages/noImage.png"/>
-                }
-            </div>
-                <p>
+                    <p>
                         <a href="@routes.EmployeeController.addProfileImage(user.getEmail)">
                             <button class="btn btn-primary">Add a profile image</button>
                         </a>
                     </p>
+                }
+            </div>
+                
 </div>
+
         <div class="col-sm-9">
             <h3>Name: @user.getName()</h3>
             <h3>Email: @user.getEmail()</h3>
             
-            <table class="table table-bordered table-hover table-condensed">
-                <thead>
-                <tr>
-                    <th>Project</th>
-                </tr>
-                </thead>
-                <tbody>
-                    @for(proj<-projects){
-                        <tr>
-                            <td>@proj.getProjName</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            
 
         </div>
+    
+</div>
+<div class="row">
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th>Project</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for(proj<-projects){
+                <tr>
+                    <td>@proj.getProjName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 }
