@@ -49,9 +49,10 @@ public class EmployeeController extends Controller{
     }
 
     public Result profile(){
-    
-
-        return ok(profile.render(User.getUserById(session().get("email")),e));
+        List<Project> projectList = null;
+        Employee emp = (Employee) User.getUserById(session().get("email"));
+        projectList = emp.getProjects();
+        return ok(profile.render(projectList,emp,e));
     }
 
     @Security.Authenticated(Secured.class)

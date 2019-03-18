@@ -1,4 +1,4 @@
-@(user: models.users.User, env: play.api.Environment)
+@(projects: List[models.users.Project], user: models.users.User, env: play.api.Environment)
 @main("Profile",user){
     <div class="row">
         <div class="col-sm-3">
@@ -19,6 +19,20 @@
             <h3>Name: @user.getName()</h3>
             <h3>Email: @user.getEmail()</h3>
             
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Project</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @for(proj<-projects){
+                        <tr>
+                            <td>@proj.getProjName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
         </div>
 </div>
