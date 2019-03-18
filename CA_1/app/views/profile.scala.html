@@ -1,4 +1,4 @@
-@(projects: List[models.users.Project], user: models.users.User, env: play.api.Environment)
+@(projects: List[models.users.Project], user: models.users.Employee, env: play.api.Environment)
 @main("Profile",user){
     <div class="row">
         <div class="col-sm-3">
@@ -17,10 +17,12 @@
                 
 </div>
 
+        @*This did not work at all, what the hell scala*@
+        @*val employee = cm.lookup("user").asInstanceOf[Employee]*@
         <div class="col-sm-9">
             <h3>Name: @user.getName()</h3>
             <h3>Email: @user.getEmail()</h3>
-            
+            <h3>Department: @user.getDepartment().getName()</h3>
             
 
         </div>
